@@ -1,0 +1,347 @@
+<!DOCTYPE>
+<html ng-app="myApp">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" integrity="sha384-aUGj/X2zp5rLCbBxumKTCw2Z50WgIr1vs/PFN4praOTvYXWlVyh2UtNUU0KAUhAX" crossorigin="anonymous">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/star-rating.min.css">
+
+    <!-- Custom Fonts -->
+    <link href="css/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+	<title>Ink'D</title>
+</head>
+<body>
+	<div class="container" ng-controller="AppCtrl">
+		<h1>Ink'D Reviews App</h1>
+    <tr>
+
+      <form ng-submit="filter(criteriaOR)" >
+      <td><button class="btn btn-primary" ng-click="filter(criteriaOR)">Click here to filter reviews</button></td>
+      <td><input class="form-control"  ng-model="criteriaOR"  placeholder="Enter professor or course name here"></td>
+
+    </form>
+    </tr>
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>Email</th>
+					<th>Number</th>
+					<th>Action</th>
+					<th>&nbsp;</th>
+					<th>&nbsp;</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td><input class="form-control" ng-model="contact.name" placeholder="Name"></td>
+
+					<td><input class="form-control" ng-model="contact.email" placeholder="Email"></td>
+					<td><input class="form-control" ng-model="contact.number" placeholder="Number"></td>
+				</tr>
+				<tr>
+					<td><input class="form-control" ng-model="contact.username" placeholder="Your Username"></td>
+					<td><input class="form-control" ng-model="contact.professor" placeholder="Professor"></td>
+					<td><input class="form-control" ng-model="contact.course" placeholder="Course"></td>
+					<td><textarea class="form-control" ng-model="contact.review" placeholder="Review"></textarea></td>
+				</tr>
+        <tr>
+
+					<td><input class="form-control" ng-model="contact.year" placeholder="Year"></td>
+	                <td>
+                    <div class="btn-group">
+                        <select ng-model="contact.year"  class="btn btn-danger dropdown-toggle btn-select" data-toggle="dropdown"</a>
+                        <ul class="dropdown-menu">
+                          <option value=""disabled selected>Select a Year</option>
+                               <option value="2016">2016</option>
+                                <option value="2015">2015</option>
+                                   <option value="2014">2014</option>
+                                   <option value="Other">Other</option>
+                        </ul>
+                      </select>
+                     </div>
+	                </td>
+					<td>
+            <div class="btn-group"  >
+                  <select ng-model="contact.semesterIndex" class="btn btn-danger dropdown-toggle btn-select2" data-toggle="dropdown" ng-options="semester.indexOf(semesterIndex) as semesterIndex for semesterIndex in semester">
+                  <option value=""disabled selected>Select a Semester</option>
+                </select>
+            </div>
+
+					</td>
+
+				</tr>
+				<tr>
+
+					<td><span>Overall RatingD</span>Semester: {{contact.semesterIndex}} Year {{contact.year}} Course: {{contact.course}}
+                    <input id="input-20a" type="number" class="rating btn-select3" ng-model="contact.overallrating" data-size="xs" data-symbol="&#xf005;" data-default-caption="{rating} Stars" data-star-captions="{}" data-glyphicon="false" data-rating-class="rating-fa"></td>
+
+				</tr>
+				<tr>
+
+					<td><span>Helpfulness</span>
+                    <input id="input-20a" type="number" class="rating btn-select4" ng-model="contact.helpfulness" data-size="xs" data-symbol="&#xf005;" data-default-caption="{rating} Stars" data-star-captions="{}" data-glyphicon="false" data-rating-class="rating-fa"><td>
+
+				</tr>
+				<tr>
+
+					<td><span>Clarity</span>
+                    <input id="input-20a" type="number" class="rating btn-select5" ng-model="contact.clarity" data-size="xs" data-symbol="&#xf005;" data-default-caption="{rating} Stars" data-star-captions="{}" data-glyphicon="false" data-rating-class="rating-fa"></td>
+
+				</tr>
+				<tr>
+
+					<td><span>Easiness</span>
+                    <input id="input-20a" type="number" class="rating btn-select6" ng-model="contact.easiness" data-size="xs" data-symbol="&#xf005;" data-default-caption="{rating} Stars" data-star-captions="{}" data-glyphicon="false" data-rating-class="rating-fa"></td>
+
+				</tr>
+				<tr>
+
+					<td><span>Attendance</span>
+                    <input id="input-20a" type="number" class="rating btn-select7" ng-model="contact.attendance" data-min="0" data-max="100" data-step="1" data-stars=5 data-size="xs" data-symbol="&#xf0c8;" data-default-caption="{rating}%" data-star-captions="{}" data-glyphicon="false" data-rating-class="rating-fa"><td>
+
+				</tr>
+				<tr>
+					<td><button class="btn btn-primary" ng-click="addContact()">Add Contact</button></td>
+					<td><button class="btn btn-info" ng-click="update()">Update</button></td>
+					<td><button class="btn btn-info" ng-click="deselect()">Clear</button></td>
+					<td><input id="btnSearch" type="submit" name="submit" value="Submit" class="btn btn-danger"></td>
+				</tr>
+				<tr>
+					<div class="container" ng-repeat="contact in contactlist">
+						<div class="row">
+							<div class="col-md-4">
+								<h2>
+									{{contact.name}}
+								</h2>
+								<p>
+									{{contact.email}}
+								</p>
+								<p>
+									By {{contact.username}} for {{contact.professor}} who taught {{contact.course}} during the {{contact.semester}} of {{contact.year}}<br>
+									Overall Rating: {{contact.overallrating}}<br>
+									Helpfulness: {{contact.helpfulness}}<br>
+									Clarity: {{contact.clarity}}<br>
+									Easiness: {{contact.easiness}}<br>
+									Attendance: {{contact.attendance}}<br>
+
+								</p>
+							</div>
+							<div class="col-md-4">
+								<h2>
+									{{contact.number}}
+								</h2>
+								<p>
+									{{contact.review}}
+								</p>
+								<button class="btn btn-danger" ng-click="remove(contact._id)">Remove</button>
+								<button class="btn btn-warning" ng-click="edit(contact._id)">Edit</button>
+							</div>
+							<div class="col-md-4">
+							</div>
+						</div>
+					</div>
+				</tr>
+			</tbody>
+		</table>
+
+	</div>
+<!--
+<input ng-model="test">
+{{test}}
+-->
+
+    <!--from stars review, can delete-->
+    <div class="container" ng-controller="AppCtrl">
+        <h1>Reviews</h1>
+        <ul class="list-unstyled">
+            <li ng-repeat="review in reviewCtrl.reviews">
+                <blockquote>
+                    <strong>{{review.stars}} Stars</strong>
+                    {{review.body}}
+                    <cite class="clearfix">—{{review.author}} on {{review.createdOn | date}}</cite>
+                </blockquote>
+            </li>
+        </ul>
+
+        <form name="reviewForm" ng-submit="reviewForm.$valid && reviewCtrl.addReview(review)" novalidate>
+            <blockquote ng-show="reviewCtrl.review">
+                <strong>{{reviewCtrl.review.stars}} Stars</strong>
+                {{reviewCtrl.review.body}}
+                <cite class="clearfix">—{{reviewCtrl.review.author}}</cite>
+            </blockquote>
+
+             <h4>Submit Review {{reviewCount}}</h4>
+
+            <fieldset class="form-group">
+                <select ng-model="reviewCtrl.review.stars" class="form-control" ng-options="stars for stars in [5,4,3,2,1]" title="Stars" required>
+                    <option value="">Your rating</option>
+                </select>
+            </fieldset>
+            <fieldset class="form-group">
+                <textarea ng-model="reviewCtrl.review.body" class="form-control" placeholder="Your review" title="Review" required></textarea>
+            </fieldset>
+            <fieldset class="form-group">
+                <input ng-model="reviewCtrl.review.author" type="email" class="form-control" placeholder="Your email address" title="Email" required>
+            </fieldset>
+            <fieldset class="form-group">
+                <input type="submit" class="btn btn-primary pull-right" value="Submit Review">
+            </fieldset>
+        </form>
+    </div>
+    <!--from stars review, can delete end-->
+
+    <!-- TEST -->
+<style>
+
+body{ margin-top:20px;}
+.glyphicon { margin-right:5px;}
+.rating .glyphicon {font-size: 22px;}
+.rating-num { margin-top:0px;font-size: 54px; }
+.progress { margin-bottom: 5px;}
+.progress-bar { text-align: left; }
+.rating-desc .col-md-3 {padding-right: 0px;}
+.sr-only { margin-left: 5px;overflow: visible;clip: auto; }
+
+</style>
+
+<div class="container" ng-controller="AppCtrl">
+    <div class="row">
+        <div class="col-xs-12 col-md-6">
+            <div class="well well-sm">
+                <div class="row">
+                    <div class="col-xs-12 col-md-6 text-center">
+                        <h1 class="rating-num">
+                            {{overallTotal/reviewCount}}</h1>
+                        <div class="rating">
+                            <span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star">
+                            </span><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star">
+                            </span><span class="glyphicon glyphicon-star-empty"></span>
+                        </div>
+                        <div>
+                            <span class="glyphicon glyphicon-user"></span>{{reviewCount}}
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-6">
+                        <div class="row rating-desc">
+                            <div class="col-xs-3 col-md-3 text-right">
+                                <span class="glyphicon glyphicon-star"></span>5
+                            </div>
+                            <div class="col-xs-8 col-md-9">
+                                <div class="progress progress-striped">
+                                    <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="20"
+                                        aria-valuemin="0" aria-valuemax="100" ng-style="{width: (overall5/reviewCount)*100+'%'}">
+                                        <span class="sr-only">{{(overall5/reviewCount)*100}}%</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- end 5 -->
+                            <div class="col-xs-3 col-md-3 text-right">
+                                <span class="glyphicon glyphicon-star"></span>4
+                            </div>
+                            <div class="col-xs-8 col-md-9">
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="20"
+                                    aria-valuemin="0" aria-valuemax="100" ng-style="{width: (overall4/reviewCount)*100+'%'}">
+                                    <span class="sr-only">{{(overall4/reviewCount)*100}}%</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- end 4 -->
+                            <div class="col-xs-3 col-md-3 text-right">
+                                <span class="glyphicon glyphicon-star"></span>3
+                            </div>
+                            <div class="col-xs-8 col-md-9">
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="20"
+                                    aria-valuemin="0" aria-valuemax="100" ng-style="{width: (overall3/reviewCount)*100+'%'}">
+                                    <span class="sr-only">{{(overall3/reviewCount)*100}}%</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- end 3 -->
+                            <div class="col-xs-3 col-md-3 text-right">
+                                <span class="glyphicon glyphicon-star"></span>2
+                            </div>
+                            <div class="col-xs-8 col-md-9">
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="20"
+                                    aria-valuemin="0" aria-valuemax="100" ng-style="{width: (overall2/reviewCount)*100+'%'}">
+                                    <span class="sr-only">{{(overall2/reviewCount)*100}}%</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- end 2 -->
+                            <div class="col-xs-3 col-md-3 text-right">
+                                <span class="glyphicon glyphicon-star"></span>1
+                            </div>
+                            <div class="col-xs-8 col-md-9">
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="80"
+                                    aria-valuemin="0" aria-valuemax="100" ng-style="{width: (overall1/reviewCount)*100+'%'}">
+                                    <span class="sr-only">{{(overall1/reviewCount)*100}}%</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- end 1 -->
+                        </div>
+                        <!-- end row -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <!-- TEST END -->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>
+<script src="controllers/controller.js"></script>
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
+
+<!-- Custom JavaScript -->
+<script src="js/star-rating.min.js"></script>
+
+<script>
+/* Star Rating NEW */
+// initialize with defaults
+ $("#input-id").rating();
+
+// with plugin options
+$("#input-id").rating({min:1, max:10, step:2, size:'lg'});
+
+</script>
+
+<script>
+
+// dropdown menu for year and semester
+$(".dropdown-menu li a").click(function(){
+        var selText = $(this).text();
+        $(this).parents('.btn-group').find('.dropdown-toggle').html(selText+' <span class="caret"></span>');
+});
+
+// displays values
+$("#btnSearch").click(function(){
+        alert("Professor: "+$('#profInput').val()+"\nCourse: " +$('#classInput').val()+"\nReview: "+$('#reviewInput').val()+"\nYear: "+$('.btn-select').text()+"\nSemester: "+$('.btn-select2').text()+"\nOverall Rating: "+$('.btn-select3').val()+"\nHelpfulness: "+$('.btn-select4').val()+"\nClarity: "+$('.btn-select5').val()+"\nEasiness: "+$('.btn-select6').val()+"\nAttendance: "+$('.btn-select7').val());
+});
+
+</script>
+
+</body>
+</html>
