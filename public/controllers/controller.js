@@ -57,11 +57,14 @@ $scope.filter = function (crit1) {
  });
 
 };
-
+$scope.incrementUpvotes = function(contact) {
+  contact.upvotes += 1;
+};
 
 $scope.addContact = function () {
   $scope.contact["semester"]=  $scope.semester[$scope.contact["semesterIndex"]]
   $scope.contact["year"]=parseInt($scope.contact["year"])
+  $scope.contact["upvotes"]=parseInt(0);
 	console.log("Your review is"+$scope.contact);
 	$http.post('contactlist', $scope.contact).success(function(response) {
 		console.log("response:"+response);

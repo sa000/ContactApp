@@ -37,12 +37,18 @@ app.get('/contactlist', function (req, res) {
 });
 
 
+ 
+
+
 app.post('/contactlist', function (req, res) {
 	req.body._id=0;
 	db.contactlist.insert(req.body, function(err, doc) {
 		res.json(doc);
 	});
 });
+
+
+
 
 app.delete('/contactlist/:id', function (req, res) {
 	var id = req.params.id;
