@@ -58,7 +58,11 @@ $scope.filter = function (crit1) {
 
 };
 $scope.incrementUpvotes = function(contact) {
-  contact.upvotes += 1;
+  var id=contact._id;
+ contact["upvotes"] +=1;
+  $http.post('/contactUpvote/'+id).success(function(response){
+    console.log("browser upvote complete"+response)
+  });
 };
 
 $scope.addContact = function () {

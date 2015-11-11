@@ -37,14 +37,16 @@ app.get('/contactlist', function (req, res) {
 });
 
 
- 
 
-
-app.post('/contactlist', function (req, res) {
-	req.body._id=0;
-	db.contactlist.insert(req.body, function(err, doc) {
-		res.json(doc);
-	});
+app.post('/contactUpvote/:id', function (req, res) {
+	var id=req.params.id;
+	db.contactlist.findAndModify({
+		query: {_id: mongojs.ObjectId(id)},
+		update: {$inc: {upvotes: 1}},
+		new: true}, function (err, doc) {
+			console.log("Finished the upvote")
+			res.json(doc)
+		});
 });
 
 
@@ -74,8 +76,7 @@ app.put('/contactlist/:id', function (req, res) {
 		update: {$set: {name: req.body.name, email: req.body.email, number: req.body.number}},
 		new: true}, function (err, doc) {
 			res.json(doc);
-		}
-	);
+		});
 });
 
 
